@@ -1,0 +1,16 @@
+{
+	"Name" : "TeamShuffle",
+	"Description" : "Randomize teams before every match",
+	"Version": "0.1.0",
+	"LoadPriority": 1,
+
+	"Scripts": [
+		{
+			"Path": "autobalance.nut",
+			"RunOn": "SERVER && MP",
+			"ServerCallback": {
+				"Before": "TeamShuffle_Init"
+			}
+		}
+	]
+}
