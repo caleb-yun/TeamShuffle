@@ -6,7 +6,7 @@
 
 	"Scripts": [
 		{
-			"Path": "autobalance.nut",
+			"Path": "teamshuffle.nut",
 			"RunOn": "SERVER && MP",
 			"ServerCallback": {
 				"Before": "TeamShuffle_Init"
