@@ -36,17 +36,21 @@ void function shuffleTeams()
 			entity player = GetPlayerArrayOfTeam(TEAM_UNASSIGNED)[0];
 
 			int team = TEAM_UNASSIGNED;
-			if (GetPlayerArrayOfTeam(TEAM_IMC).len() >= maxTeamSize) {
+			int imcCount = GetPlayerArrayOfTeam(TEAM_IMC).len();
+			int militiaCount = GetPlayerArrayOfTeam(TEAM_MILITIA).len();
+			if (imcCount >= maxTeamSize) {
 				team = TEAM_MILITIA;
-			} else if (GetPlayerArrayOfTeam(TEAM_MILITIA).len() >= maxTeamSize) {
+				printt("[TEAMSHUFFLE] Setting " + player.GetPlayerName() + "'s team to " + team);
+			} else if (militiaCount >= maxTeamSize) {
 				team = TEAM_IMC;
+				printt("[TEAMSHUFFLE] Setting " + player.GetPlayerName() + "'s team to " + team);
 			} else {
 				// TEAM_IMC = 2, TEAM_MILITIA = 3
 				team = RandomIntRange(TEAM_IMC, TEAM_MILITIA + 1);
+				printt("[TEAMSHUFFLE] Randomly setting " + player.GetPlayerName() + "'s team to " + team); // DEBUG
 			}
 			try {
 				SetTeam(player, team);
-				printt("[TEAMSHUFFLE] Setting " + player.GetPlayerName() + "'s team to " + team);
 			} catch (e) {
 				printt("[TEAMSHUFFLE] Unable to set " + player.GetPlayerName() + "'s team.");
 			}
