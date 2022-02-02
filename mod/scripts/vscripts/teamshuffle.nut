@@ -11,13 +11,14 @@ struct {
 void function TeamShuffle_Init()
 {
 	AddCallback_GameStateEnter(eGameState.Prematch, shuffleTeams);
+	AddCallback_GameStateEnter(eGameState.Postmatch, fixShuffle);
 	//AddCallback_EntitiesDidLoad(shuffleTeams);
 }
 
 
 void function shuffleTeams()
 {
-	if (hasshuffled)
+	if (file.hasshuffled)
 		return
 	// Check if the gamemode or map are on the blacklist
 	bool gamemodeDisable = disabledGamemodes.contains(GAMETYPE) || IsFFAGame();
@@ -64,4 +65,8 @@ void function shuffleTeams()
 		}
 		hasshuffled = true
 	}
+}
+
+void function fixShuffle() {
+	file.hasshuffled = false
 }
