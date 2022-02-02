@@ -63,7 +63,7 @@ void function shuffleTeams()
 				printt("[TEAMSHUFFLE] Unable to set " + player.GetPlayerName() + "'s team.");
 			}
 		}
-		hasshuffled = true
+		file.hasshuffled = true
 	}
 }
 
