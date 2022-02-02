@@ -1,7 +1,12 @@
 global function TeamShuffle_Init
 
-array<string> disabledGamemodes = ["private_match", "inf", "hs", "ffa"]
+array<string> disabledGamemodes = ["private_match", "inf", "hs", "ffa", "chamber", "gg"]
 array<string> disabledMaps = ["mp_lobby"]
+
+struct {
+	bool hasshuffled = false
+} file
+
 
 void function TeamShuffle_Init()
 {
@@ -12,9 +17,11 @@ void function TeamShuffle_Init()
 
 void function shuffleTeams()
 {
+	if (hasshuffled)
+		return
 	// Check if the gamemode or map are on the blacklist
-	bool gamemodeDisable = disabledGamemodes.find(GAMETYPE) > -1;
-	bool mapDisable = disabledMaps.find(GetMapName()) > -1;
+	bool gamemodeDisable = disabledGamemodes.contains(GAMETYPE) || IsFFAGame();
+	bool mapDisable = disabledMaps.contains(GetMapName());
 
 	array<entity> players = GetPlayerArray();
 	int playerCount = players.len();
@@ -22,7 +29,7 @@ void function shuffleTeams()
 	printt("[TEAMSHUFFLE] " + playerCount + " players"); // DEBUG
 
 	// Only run the code if the blacklists were passed
-	if ( playerCount > 0 && !(gamemodeDisable || mapDisable) ) {
+	if (playerCount > 0 && !gamemodeDisable && !mapDisable) {
 
 		// set all players team to TEAM_UNASSIGNED temporarily
 		foreach (player in players) {
@@ -55,7 +62,6 @@ void function shuffleTeams()
 				printt("[TEAMSHUFFLE] Unable to set " + player.GetPlayerName() + "'s team.");
 			}
 		}
-
+		hasshuffled = true
 	}
-
 }
